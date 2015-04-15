@@ -7,6 +7,10 @@
 	<artifactId>dropbox-boot</artifactId>
 	<version>0.1.0</version>
 	<packaging>jar</packaging>
+
+	<name>com.workrefined:dropbox-boot</name>
+	<description>Glue module for using Dropbox Core API with Spring Boot, using autowiring and externalized configuration of access information</description>
+
 	<properties>
 		<!-- The main class to start by executing java -jar -->
 		<start-class>com.workrefined.dropbox.Application</start-class>
@@ -16,6 +20,27 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.2.2.RELEASE</version>
 	</parent>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Ben Johnson</name>
+			<email>deafgreatdane@gmail.com</email>
+			<organization>WorkRefined</organization>
+			<organizationUrl>http://www.workrefined.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:deafgreatdane/dropbox-boot.git</connection>
+		<developerConnection>scm:git:git@github.com:deafgreatdane/dropbox-boot.git</developerConnection>
+		<url>https://github.com/deafgreatdane/dropbox-boot</url>
+	</scm>
 
 	<dependencies>
 		<dependency>
