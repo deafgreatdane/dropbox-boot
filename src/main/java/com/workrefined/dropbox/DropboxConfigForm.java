@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -25,28 +24,19 @@ import com.dropbox.core.DbxWebAuthNoRedirect;
 @ConfigurationProperties(prefix="com.workrefined.dropbox")
 public class DropboxConfigForm {
 
-//	@Value("${clientIdentifier}")
-	private String clientIdentifier;
-//	@Value("${appKey}")
-	private String appKey;
-//	@Value("${appSecret}")
-	private String appSecret;
-//	@Value("${accessToken}")
-	private String accessToken;
-
 	/**
 	 * A utility method to create a fragment of an application.properties file
 	 * needed for configuring the Dropbox DbxClient.
 	 * @throws DbxException 
 	 */
 	public void prompt() throws IOException, DbxException {
-		String localClientIdentifier = getAnswer("How should this app identify itself to Dropbox?", clientIdentifier);
-		String localAppKey = getAnswer("Enter your app key", appKey);
-		String localAppSecret = getAnswer("Enter your app secrete", appSecret);
+		String clientIdentifier = getAnswer("How should this app identify itself to Dropbox?", "My Java App");
+		String appKey = getAnswer("Enter your app key");
+		String appSecret = getAnswer("Enter your app secrete");
 
-		DbxAppInfo appInfo = new DbxAppInfo(localAppKey, localAppSecret);
+		DbxAppInfo appInfo = new DbxAppInfo(appKey, appSecret);
 
-		DbxRequestConfig config = new DbxRequestConfig(localClientIdentifier, Locale.getDefault().toString());
+		DbxRequestConfig config = new DbxRequestConfig(clientIdentifier, Locale.getDefault().toString());
 		DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 
 		// Have the user sign in and authorize your app.
@@ -65,11 +55,20 @@ public class DropboxConfigForm {
 		
 		System.out.println("Here is a fragment of values you can enter into your application.properties file");
 		System.out.println("########");
-		System.out.println("com.workrefined.dropbox.clientIdentifier="+ localClientIdentifier);
-		System.out.println("com.workrefined.dropbox.appKey="+ localAppKey);
-		System.out.println("com.workrefined.dropbox.appSecret="+ localAppSecret);
+		System.out.println("com.workrefined.dropbox.clientIdentifier="+ clientIdentifier);
+		System.out.println("com.workrefined.dropbox.appKey="+ appKey);
+		System.out.println("com.workrefined.dropbox.appSecret="+ appSecret);
 		System.out.println("com.workrefined.dropbox.accessToken="+ localAccessToken);
 		System.out.println("########");
+	}
+	public String getAnswer(String prompt) throws IOException {
+		System.out.println(prompt);
+		String answer = new BufferedReader(new InputStreamReader(System.in)).readLine().trim();
+		if (! StringUtils.isEmpty(answer)) {
+			return answer ;
+		}
+		System.out.println("try again...");
+		return getAnswer(prompt);
 	}
 
 	public String getAnswer(String prompt, String defaultAnswer) throws IOException {
